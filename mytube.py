@@ -8,7 +8,7 @@ class Mytube:
         yt = YouTube(url)
         self.YouTube = yt
         self.PreviousSize = None
-        self.Pbar = tqdm(total=self.YouTube.streams.get_by_itag(18).filesize)
+        self.Pbar = tqdm(total=self.YouTube.streams.first().filesize)
 
     def list_stream(self):
         print(self.YouTube.streams.all())
@@ -16,7 +16,7 @@ class Mytube:
 
     def download(self):
         self.YouTube.register_on_progress_callback(self.update_bar)
-        self.YouTube.streams.get_by_itag(18).download()
+        self.YouTube.streams.first().download()
         self.Pbar.close()
 
     def update_bar(self, stream, chunk, file_handle, bytes_remaining):

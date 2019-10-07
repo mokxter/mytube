@@ -1,4 +1,5 @@
-import sys
+import getopt
+from sys import argv, exit
 from pytube import YouTube
 from tqdm import tqdm
 
@@ -30,5 +31,23 @@ class Mytube:
             
         self.Pbar.update(update_bytes)
 
+def main(argv):
+    input_url_var = input("Enter url: ")
+
+    try:
+        opts, args = getopt.getopt(argv,'',['progress=','playlist='])
+    except getop.GetoptError:
+        print('Invalid argument')
+        exit(2)
+
+    if (len(input_url_var) == 0):
+        # Exit immaturely
+        exit(1)
+
+    Mytube(url=input_url_var).download()
+
+    # Exit properly
+    exit(0)
+
 if __name__ == "__main__":
-    Mytube(url="https://www.youtube.com/watch?v=BriBDiBxaMY").download()
+    main(argv[1:])
